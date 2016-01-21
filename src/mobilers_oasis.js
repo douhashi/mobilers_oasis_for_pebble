@@ -2,21 +2,16 @@
 var ajax = require('ajax');
 var Oasis = require('oasis');
 
-var MobilersOasis = (function(){
-  var ENDPOINT='http://oasis.mogya.com/api/v0/search';
-  
-  var MobilersOasis = function(options){
+// constructor
+var MobilersOasis = function(options){
     this.n = options.n;
     this.s = options.s;
     this.w = options.w;
     this.e = options.e;
-  }
-  
-  var p = MobilersOasis.prototype;
-
-  ///// public methods
-  // request to mobiler's oasis
-  p.getOasis = function(successCallback, failureCallback){
+}
+MobilersOasis.ENDPOINT = 'http://oasis.mogya.com/api/v0/search';
+MobilersOasis.prototype = {
+  getOasis: function(successCallback, failureCallback){
     ajax(
       // options
       {
@@ -36,10 +31,8 @@ var MobilersOasis = (function(){
         failureCallback(data);
       }
     );
-  }
-
-  ///// private methods
-  p._generateUrlParams = function(){
+  },
+  _generateUrlParams: function(){
     var prefix = "?";
     var paramsArray = [];
 
@@ -50,5 +43,6 @@ var MobilersOasis = (function(){
 
     return prefix + paramsArray.join('&');
   }
+}
 
-})();
+this.exports = MobilersOasis;
