@@ -7,6 +7,9 @@
 var UI = require('ui');
 var Vector2 = require('vector2');
 
+// My Libraries
+var MobilersOasis = require('mobilers_oasis');
+
 var main = new UI.Card({
   title: 'Pebble.js',
   icon: 'images/menu_icon.png',
@@ -19,23 +22,30 @@ var main = new UI.Card({
 main.show();
 
 main.on('click', 'up', function(e) {
-  var menu = new UI.Menu({
-    sections: [{
-      items: [{
-        title: 'Pebble.js',
-        icon: 'images/menu_icon.png',
-        subtitle: 'Can do Menus'
-      }, {
-        title: 'Second Item',
-        subtitle: 'Subtitle Text'
-      }]
-    }]
-  });
-  menu.on('select', function(e) {
-    console.log('Selected item #' + e.itemIndex + ' of section #' + e.sectionIndex);
-    console.log('The item is titled "' + e.item.title + '"');
-  });
-  menu.show();
+  // TODO: get geolocation and make params
+  console.log("[main] clicked!");
+  var params = { n: '34.70849', w: '135.48775', s: '34.69727', e: '135.50951' };
+  var mo = new MobilersOasis(params);
+  mo.getOasis(
+    function(oases){
+      var items = [];
+      for( var i = 0; i < oases.length; i++ ){
+        var item = {};
+        item.title = oases[i].title;
+        items.push(item);
+      }
+
+      var menu = new UI.Menu({
+        sections: [{
+          items: items
+        }]
+      });
+      menu.show();
+    },
+    function(data){
+      console.log(data);
+    }
+  );
 });
 
 main.on('click', 'select', function(e) {
