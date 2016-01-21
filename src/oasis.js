@@ -1,7 +1,11 @@
 // oasis model
-var Oasis = (function(){
-  var Oasis = function(options){
-    this.title = options.title;
+var Oasis = function(entry){
+  this.title = entry.title;
+};
+Oasis.prototype = {
+  title: function(){
+    return this.title;
   }
-  var p = Oasis.prototype;
-})();
+};
+
+this.exports = Oasis;

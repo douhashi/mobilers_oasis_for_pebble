@@ -8,26 +8,33 @@ var MobilersOasis = function(options){
     this.s = options.s;
     this.w = options.w;
     this.e = options.e;
-}
-MobilersOasis.ENDPOINT = 'http://oasis.mogya.com/api/v0/search';
+};
+
 MobilersOasis.prototype = {
   getOasis: function(successCallback, failureCallback){
+    console.log("[MobilersOasis#getOasis] Enter.");
+    var endpoint = 'http://oasis.mogya.com/api/v0/search';
     ajax(
       // options
       {
-        url: ENDPOINT + this._generateUrlParams();,
+        url: endpoint + this._generateUrlParams(),
         type: 'json'
       },
       // success handler
       function(data, status, request){
+        console.log('[MobilersOasis#getOasis] request success!');
         var oases = [];
-        for( var entry = data.results ){
-          oases.push( new Oasis(entry) );
+        var length = data.results.length;
+        for(var i = 0; i < length; i++){
+          var oasis = new Oasis(data.results[i]);
+          oases.push( oasis );
         }
+
         successCallback(oases);
       },
       // failure handler
       function(data, status, request){
+        console.log('[MobilersOasis#getOasis] request failure!');
         failureCallback(data);
       }
     );
@@ -43,6 +50,6 @@ MobilersOasis.prototype = {
 
     return prefix + paramsArray.join('&');
   }
-}
+};
 
 this.exports = MobilersOasis;

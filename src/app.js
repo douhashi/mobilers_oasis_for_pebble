@@ -23,14 +23,15 @@ main.show();
 
 main.on('click', 'up', function(e) {
   // TODO: get geolocation and make params
-  var params = { n: '34.70849', w: '135.48775', s: '34.69727', e: '135.50951' }
+  console.log("[main] clicked!");
+  var params = { n: '34.70849', w: '135.48775', s: '34.69727', e: '135.50951' };
   var mo = new MobilersOasis(params);
   mo.getOasis(
     function(oases){
       var items = [];
-      for( var oasis in oases ){
+      for( var i = 0; i < oases.length; i++ ){
         var item = {};
-        item.title = oasis.title;
+        item.title = oases[i].title;
         items.push(item);
       }
 
@@ -42,6 +43,7 @@ main.on('click', 'up', function(e) {
       menu.show();
     },
     function(data){
+      console.log(data);
     }
   );
 });
